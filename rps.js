@@ -1,63 +1,75 @@
 let humanScore = 0;
 let computerScore = 0;
 
-function getComputerChoice() {
-    let choice = ["Rock", "Paper", "Scissors"];
+document.addEventListener('DOMContentLoaded', function() {
 
-    return choice[Math.floor(Math.random() * 3)];
-}
+    function getComputerChoice() {
+        let choice = ["Rock", "Paper", "Scissors"];
 
-function getHumanChoice() {
-    let userChoice = prompt("Rock, Paper or Scissors?").toLowerCase();
-    userChoice = userChoice.charAt(0).toUpperCase() + userChoice.slice(1);
+        return choice[Math.floor(Math.random() * 3)];
+    }
+
+    function playRound(humanChoice, computerChoice) {
+ 
+        const p = document.getElementById('roundResultText');
+        console.log(p.textContent);
+
+        const winner = {"Paper":"Rock",
+                        "Rock":"Scissors",
+                        "Scissors":"Paper"
+                        }
+        
+        let messageWinner;
+        let pcChoice = document.querySelector("#computerScreen");
+        pcChoice.querySelector('p').textContent = `The computer chose ${computerChoice}`;
+
+        if (humanChoice === computerChoice) {
+            messageWinner = "That's a tie";
+        } 
+        else if (winner[humanChoice] === computerChoice) {
+            humanScore++;
+            messageWinner = "You have won this round! 1+ point for you";
+        } 
+        else {
+            computerScore++;
+            messageWinner = "The computer has won this round! 1+ point for the computer"
+        }
+
+        if (humanScore + computerScore === 5) {
+            if (humanScore > computerScore) {
+                document.querySelector("#roundResultText").textContent = "You have won!";
+                alert("You have won!");
+            } else if (computerScore > humanScore) {
+                document.querySelector("#roundResultText").textContent = "The computer has won!";
+                alert("The computer has won!")
+            } else {
+                document.querySelector("#roundResultText").textContent = "That's a tie!";
+                alert("That's a tie!")
+            }
     
-    return userChoice;
-}
+            humanScore = 0;
+            computerScore = 0;
+    
+            playGame();
+        }
 
+        document.querySelector("#playerScore").innerText = `Your score is: ${humanScore}`;
+        document.querySelector("#computerScore").innerText = `The computer's score is: ${computerScore}`;
 
-function playRound(humanChoice, computerChoice) {
-    const winner = {"Paper":"Rock",
-                    "Rock":"Scissors",
-                    "Scissors":"Paper"
-                    }
-
-    if (humanChoice === computerChoice) {
-        alert(`You chose ${humanChoice} and the Computer chose ${computerChoice}`);
-        console.log("That's a tie");
-    } 
-    else if (winner[humanChoice] === computerChoice) {
-        alert(`You chose ${humanChoice} and the Computer chose ${computerChoice}`);
-        humanScore++;
-        console.log(`${humanChoice} beats ${computerChoice}! 1+ point for you pal!`)
-    } 
-    else {
-        alert(`You chose ${humanChoice} and the Computer chose ${computerChoice}`);
-        computerScore++;
-        console.log(`${computerChoice} beats ${humanChoice}! 1+ point for the computer!`)
+        p.textContent = messageWinner;
     }
 
-    console.log(`Your Score: ${humanScore}`);
-    console.log(`The Computer's Score: ${computerScore}`);
-}
 
+    function playGame() {
 
-function playGame() {
-    humanScore = 0;
-    computerScore = 0;
+        const buttons = document.querySelectorAll("button");
+        buttons.forEach(button => {
+            button.addEventListener("click", () => {`   `
+                playRound(button.value, getComputerChoice())
+            })  
+        })
 
-    alert("Let's play a new game!");
-
-    for (let i = 0; i < 5; i++) {
-       playRound(getHumanChoice(), getComputerChoice()); 
     }
 
-    if (humanScore > computerScore) {
-        alert("You have won!");
-    } else if (computerScore > humanScore) {
-        alert("The computer has won!")
-    } else {
-        alert("That's a tie!")
-    }
-}
-
-playGame();
+    playGame(); 
+})

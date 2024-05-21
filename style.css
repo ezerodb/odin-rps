@@ -1,0 +1,23 @@
+* {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    padding: 20px;
+}
+
+.title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+.playingScreen {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#roundResult p {
+    text-align: center;
+}
